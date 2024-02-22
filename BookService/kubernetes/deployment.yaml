@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: BookService
+  name: BookService
+  labels:
+    app: BookService
+spec:
+  selector:
+    matchLabels:
+      app: BookService
+  template:
+    metadata:
+      labels:
+        app: BookService
+        name: BookService
+    spec:
+      containers:
+        - name: BookService
+          image: mahendraintelops/book-store-demo-v2/BookService
+          imagePullPolicy: Always
+          ports:
+        
+          - containerPort: 4500
+            name: http
+        
+        
+          readinessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 30
+        
